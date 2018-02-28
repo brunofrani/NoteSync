@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">NoteSync</string>
+
+    <string name="itemIdSave">Save</string>
+    <string name="itemIdDiscard">Discard</string>
+
+    <string name="Save">Save</string>
+    <string name="Discard">Discard</string>
+</resources>

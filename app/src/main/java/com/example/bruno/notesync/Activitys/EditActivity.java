@@ -95,7 +95,7 @@ public class EditActivity extends AppCompatActivity {
             startActivity(itent);
             //  nr ++;
             //  finish();
-
+            //jj
         } else if (IntentUid != null) {
             note = noteEdit.getText().toString();
             myRef.child(IntentUid).child("note").setValue(note);

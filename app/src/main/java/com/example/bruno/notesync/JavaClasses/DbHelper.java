@@ -1,4 +1,4 @@
-package com.example.bruno.notesync;
+package com.example.bruno.notesync.JavaClasses;
 
 import android.content.ContentValues;
 import android.content.Context;
@@ -36,7 +36,7 @@ public class DbHelper extends SQLiteOpenHelper {
 
     String CREATE_NOTES_TABLE = "CREATE TABLE " + TABLE_NOTES + "("
             + KEY_ID + " INTEGER PRIMARY KEY AUTOINCREMENT," + KEY_NOTE + " TEXT,"
-            + KEY_USERNAME + " TEXT" + ")";
+            + ")";
 
 
     // String CreateDb = "create table Notes (note text, username text,id integer Primary Key )";
@@ -62,7 +62,7 @@ public class DbHelper extends SQLiteOpenHelper {
         ContentValues Values = new ContentValues();
 
         Values.put(KEY_NOTE, noteElements.getNote());
-        Values.put(KEY_USERNAME, noteElements.getUserName());
+        Values.put(KEY_USERNAME, noteElements.getEmail());
 
         long result = db.insert(TABLE_NOTES, null, Values);
 
@@ -107,7 +107,7 @@ public class DbHelper extends SQLiteOpenHelper {
             do {
                 NoteElements elment = new NoteElements();
                 elment.setNote(cursor.getString(1));
-                elment.setUserName(cursor.getString(2));
+                elment.setEmail(cursor.getString(2));
 
                 noteElements.add(elment);
 

@@ -128,37 +128,42 @@ public class ShowActivity extends AppCompatActivity {
             @Override
             public void onItemLongClick(final int position, View view) {
 
-                String uid = noteList.get(position).getUid();
-                //myRef.child(uid).removeValue();
-                noteList.remove(noteList.get(position));
-                adapterRecycler.notifyDataSetChanged();
-                myRef.child(uid).removeValue();
+               /*
+*/
+
+                AlertDialog.Builder builder = new AlertDialog.Builder(ShowActivity.this);
+
+                builder.setTitle("Attention");
+                builder.setMessage("Do You Want To Delete This Note");
+                builder.setIcon(R.mipmap.ic_action_discard);
+
+                builder.setPositiveButton("YES", new DialogInterface.OnClickListener() {
+
+                    public void onClick(DialogInterface dialog, int which) {
+                        // Do nothing but close the dialog
+                        String uid = noteList.get(position).getUid();
+                        //myRef.child(uid).removeValue();
+                        noteList.remove(noteList.get(position));
+                        adapterRecycler.notifyDataSetChanged();
+                        myRef.child(uid).removeValue();
+                       // dialog.dismiss();
+                    }
+                });
+
+                builder.setNegativeButton("NO", new DialogInterface.OnClickListener() {
+
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+
+                        // Do nothing
+                        dialog.dismiss();
+                    }
+                });
+
+                AlertDialog alert = builder.create();
+                alert.show();
 
 
-              /*AlertDialog.Builder builder = new AlertDialog.Builder(getApplication());
-
-               builder.setMessage("Do You Want To Delete It")
-                       .setTitle("Attention")
-                       .setIcon(R.mipmap.ic_action_discard)
-                       .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-                           @Override
-                           public void onClick(DialogInterface dialogInterface, int i) {
-                               String uid = noteList.get(position).getUid();
-                               myRef.child(uid).removeValue();
-                               noteList.remove(noteList.get(position));
-                               adapterRecycler.notifyDataSetChanged();
-
-                           }
-                       }).setNegativeButton("No", new DialogInterface.OnClickListener() {
-                   @Override
-                   public void onClick(DialogInterface dialogInterface, int i) {
-                       Toast.makeText(getApplicationContext(), "Note Not Deleted " ,
-                               Toast.LENGTH_SHORT).show();
-                   }
-               });
-
-                AlertDialog dialog = builder.create();
-                dialog.show();*/
 
 
             }

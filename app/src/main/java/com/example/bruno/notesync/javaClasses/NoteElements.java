@@ -15,24 +15,6 @@ public class NoteElements {
     public NoteElements() {
     }
 
-    public NoteElements(String note, String email, String date, String uid) {
-        this.note = note;
-        this.email = email;
-        this.date = date;
-        this.uid = uid;
-    }
-
-    public NoteElements(String note, String email, String date) {
-        this.note = note;
-        this.email = email;
-        this.date = date;
-    }
-
-    public NoteElements(String note, String email) {
-        this.note = note;
-        this.email = email;
-    }
-
     public String getNote() {
         return note;
     }

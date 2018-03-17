@@ -19,7 +19,6 @@ public class AdapterRecycler extends RecyclerView.Adapter<AdapterRecycler.ViewHo
     private static OnClickListener onClickListener;
     ArrayList<NoteElements> noteElement;
 
-
     public static class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, View.OnLongClickListener,View.OnTouchListener{
         // each data item is just a string in this case
         RelativeLayout relativeLayout;

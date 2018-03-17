@@ -164,8 +164,6 @@ public class ShowActivity extends AppCompatActivity {
                 alert.show();
 
 
-
-
             }
         }));
 

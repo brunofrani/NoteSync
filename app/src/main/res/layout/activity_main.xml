@@ -4,9 +4,11 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:id="@+id/login_coordinator"
     tools:context="com.example.bruno.notesync.activitys.LoginActivity"
     android:background="#F0FFF0"
     tools:layout_editor_absoluteY="81dp">
+
 
     <EditText
         android:id="@+id/editTextEmail"

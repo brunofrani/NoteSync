@@ -6,6 +6,8 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
+import android.support.design.widget.CoordinatorLayout;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.content.FileProvider;
@@ -48,6 +50,7 @@ public class EditActivity extends AppCompatActivity {
     EditText Username;
     ImageView picture;
     String message;
+    CoordinatorLayout coordinatorLayout;
     NoteElements noteElements;
     DbHelper helper;
     FirebaseDatabase firebaseDatabase;
@@ -69,6 +72,8 @@ public class EditActivity extends AppCompatActivity {
         picture = findViewById(R.id.imageViewPicture);
 
         picture.setVisibility(View.INVISIBLE);
+
+        coordinatorLayout = findViewById(R.id.cordinator_edit);
 
         // firebaseDatabase = FirebaseDatabase.getInstance();
         // firebaseDatabase.setPersistenceEnabled(true);
@@ -117,7 +122,6 @@ public class EditActivity extends AppCompatActivity {
 
             });
 
-
         }
 
     }
@@ -165,8 +169,12 @@ public class EditActivity extends AppCompatActivity {
             Intent itent = new Intent(getApplicationContext(), ShowActivity.class);
             startActivity(itent);
         } else {
-            Toast.makeText(getApplicationContext(), "Add some text ",
-                    Toast.LENGTH_SHORT).show();
+           /* Toast.makeText(getApplicationContext(), "Add some text ",
+                    Toast.LENGTH_SHORT).show();*/
+            Snackbar snackbar = Snackbar
+                    .make(coordinatorLayout, "Welcome to AndroidHive", Snackbar.LENGTH_LONG);
+
+            snackbar.show();
         }
 
 

@@ -7,65 +7,61 @@ package com.example.bruno.notesync.javaClasses;
 
 public class NoteElements {
 
-    private String Note;
-    private String Email;
-    private String Date;
-    private String Uid;
-
-    public String getUid() {
-        return Uid;
-    }
-
-    public void setUid(String uid) {
-        Uid = uid;
-    }
-
-    public NoteElements(String note, String email, String date, String uid) {
-        Note = note;
-        Email = email;
-        Date = date;
-        Uid = uid;
-    }
-
-    public String getNote() {
-
-        return Note;
-    }
-
-    public String getEmail()
-    {
-        return Email;
-    }
-
-    public void setEmail(String email)
-    {
-        Email = email;
-    }
-
-    public String getDate()
-    {
-        return Date;
-    }
-
-    public void setDate(String date) {
-        this.Date = date;
-    }
-
-    public void setNote(String note) {
-        Note = note;
-    }
+    private String note;
+    private String email;
+    private String date;
+    private String uid;
 
     public NoteElements() {
     }
 
+    public NoteElements(String note, String email, String date, String uid) {
+        this.note = note;
+        this.email = email;
+        this.date = date;
+        this.uid = uid;
+    }
+
     public NoteElements(String note, String email, String date) {
-        Note = note;
-        Email = email;
-        this.Date = date;
+        this.note = note;
+        this.email = email;
+        this.date = date;
     }
 
     public NoteElements(String note, String email) {
-        Note = note;
-        Email = email;
+        this.note = note;
+        this.email = email;
+    }
+
+    public String getNote() {
+        return note;
+    }
+
+    public void setNote(String note) {
+        this.note = note;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getDate() {
+        return date;
+    }
+
+    public void setDate(String date) {
+        this.date = date;
+    }
+
+    public String getUid() {
+        return uid;
+    }
+
+    public void setUid(String uid) {
+        this.uid = uid;
     }
 }

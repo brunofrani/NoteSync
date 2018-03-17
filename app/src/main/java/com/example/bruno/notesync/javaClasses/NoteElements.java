@@ -1,4 +1,4 @@
-package com.example.bruno.notesync.JavaClasses;
+package com.example.bruno.notesync.javaClasses;
 
 /**
  * Created by Bruno on 2/27/2018.
@@ -32,15 +32,18 @@ public class NoteElements {
         return Note;
     }
 
-    public String getEmail() {
+    public String getEmail()
+    {
         return Email;
     }
 
-    public void setEmail(String email) {
+    public void setEmail(String email)
+    {
         Email = email;
     }
 
-    public String getDate() {
+    public String getDate()
+    {
         return Date;
     }
 
@@ -49,15 +52,10 @@ public class NoteElements {
     }
 
     public void setNote(String note) {
-
-
         Note = note;
     }
 
-
-
     public NoteElements() {
-
     }
 
     public NoteElements(String note, String email, String date) {

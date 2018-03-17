@@ -1,14 +1,13 @@
-package com.example.bruno.notesync.Activitys;
+package com.example.bruno.notesync.activitys;
 
 import android.content.Intent;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -23,7 +22,7 @@ import com.google.firebase.auth.FirebaseUser;
 public class LoginActivity extends AppCompatActivity {
 
 
-    ImageView logoimage;
+
     EditText emailField;
     EditText passwordField;
     Button loginButton;
@@ -31,7 +30,7 @@ public class LoginActivity extends AppCompatActivity {
 
     private FirebaseAuth mAuth;
 
-    static final String TAG = "in app tag";
+    static final String TAG = "Login Activity";
 
 
     @Override
@@ -51,18 +50,13 @@ public class LoginActivity extends AppCompatActivity {
             Intent intent = new Intent(getApplicationContext(), ShowActivity.class);
             startActivity(intent);
         } else {
-            // No user is signed in
+            // TODO: implememt user not signed in
         }
 
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                // if (!emailField.getText().toString().equals(null)&& !passwordField.getText().toString().equals(null)){
                 signIn(emailField.getText().toString(), passwordField.getText().toString());
-               /* else
-                    {
-                    Toast.makeText(getApplicationContext(),"FIll in the fields",Toast.LENGTH_SHORT).show();
-                }*/
             }
         });
 
@@ -73,26 +67,8 @@ public class LoginActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-
-
     }
 
-    @Override
-    protected void onStart() {
-        super.onStart();
-
-       /* FirebaseUser currentUser = mAuth.getCurrentUser();
-
-        if (!currentUser.equals(null)){
-            Intent intent = new Intent(getApplicationContext(),EditActivity.class);
-            intent.putExtra("username",currentUser.getDisplayName());
-            startActivity(intent);
-
-
-
-        }*/
-
-    }
 
     public void signIn(String email, String password)
 
@@ -103,22 +79,17 @@ public class LoginActivity extends AppCompatActivity {
                         @Override
                         public void onComplete(@NonNull Task<AuthResult> task) {
                             if (task.isSuccessful()) {
-                                // Sign in success, update UI with the signed-in user's information
+
                                 Log.d(TAG, "signInWithEmail:success");
                                 FirebaseUser user = mAuth.getCurrentUser();
                                 Intent intent = new Intent(getApplicationContext(), ShowActivity.class);
-                                // intent.putExtra("username",user.getDisplayName());
                                 startActivity(intent);
 
                             } else {
-                                // If sign in fails, display a message to the user.
                                 Log.w(TAG, "signInWithEmail:failure", task.getException());
-                                Toast.makeText(getApplicationContext(), "Authentication failed." + task.getException(),
+                                Toast.makeText(getApplicationContext(), "Authentication failed." + task.getException().getMessage(),
                                         Toast.LENGTH_SHORT).show();
-
                             }
-
-
                         }
                     });
         } else {
@@ -128,9 +99,6 @@ public class LoginActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-
         moveTaskToBack(true);
-
-
     }
 }

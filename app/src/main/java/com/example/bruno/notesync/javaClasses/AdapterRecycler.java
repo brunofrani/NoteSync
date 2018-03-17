@@ -1,7 +1,8 @@
-package com.example.bruno.notesync.JavaClasses;
+package com.example.bruno.notesync.javaClasses;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RelativeLayout;
@@ -19,20 +20,16 @@ public class AdapterRecycler extends RecyclerView.Adapter<AdapterRecycler.ViewHo
     ArrayList<NoteElements> noteElement;
 
 
-    // Provide a reference to the views for each data item
-    // Complex data items may need more than one view per item, and
-    // you provide access to all the views for a data item in a view holder
-    public static class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, View.OnLongClickListener {
+    public static class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, View.OnLongClickListener,View.OnTouchListener{
         // each data item is just a string in this case
         RelativeLayout relativeLayout;
         TextView textView;
         TextView textDate;
-        // private OnClickListener onClickListener;
 
         public ViewHolder(View item) {
             super(item);
-            item.setOnClickListener(this);
-            item.setOnLongClickListener(this);
+          //  item.setOnClickListener(this);
+          //  item.setOnLongClickListener(this);
             textView = item.findViewById(R.id.textView1);
             textDate = item.findViewById(R.id.textViewDate);
             relativeLayout = item.findViewById(R.id.item_list);
@@ -40,9 +37,7 @@ public class AdapterRecycler extends RecyclerView.Adapter<AdapterRecycler.ViewHo
 
         @Override
         public void onClick(View view) {
-
             onClickListener.onItemClick(getAdapterPosition(), view);
-
         }
 
         @Override
@@ -51,23 +46,23 @@ public class AdapterRecycler extends RecyclerView.Adapter<AdapterRecycler.ViewHo
             return false;
         }
 
-
+        @Override
+        public boolean onTouch(View view, MotionEvent motionEvent)
+        {
+            return false;
+        }
     }
 
-    public void setOnItemClickListener(OnClickListener clickListener) {
-        AdapterRecycler.onClickListener = clickListener;
-    }
-
-    // Provide a suitable constructor (depends on the kind of dataset)
+  //  public void setOnItemClickListener(OnClickListener clickListener) {
+    //    AdapterRecycler.onClickListener = clickListener;
+    //}
     public AdapterRecycler(ArrayList<NoteElements> noteElements) {
         noteElement = noteElements;
     }
 
-    // Create new views (invoked by the layout manager)
     @Override
     public AdapterRecycler.ViewHolder onCreateViewHolder(ViewGroup parent,
                                                          int viewType) {
-        // create a new view
         View v = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.item_dual, parent, false);
 
@@ -84,14 +79,9 @@ public class AdapterRecycler extends RecyclerView.Adapter<AdapterRecycler.ViewHo
         holder.textDate.setText((CharSequence) noteElement.get(position).getDate());
 
     }
-
-    // Return the size of your dataset (invoked by the layout manager)
     @Override
     public int getItemCount() {
-
         return noteElement.size();
-
     }
-
 
 }

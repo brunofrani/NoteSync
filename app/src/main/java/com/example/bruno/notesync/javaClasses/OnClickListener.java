@@ -1,4 +1,4 @@
-package com.example.bruno.notesync.JavaClasses;
+package com.example.bruno.notesync.javaClasses;
 
 import android.view.View;
 
@@ -10,8 +10,6 @@ public interface OnClickListener {
 
     void onItemClick(int position, View view);
 
-
     void onItemLongClick(int position, View view);
-
 
 }

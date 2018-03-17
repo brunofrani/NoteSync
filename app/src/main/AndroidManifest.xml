@@ -3,6 +3,11 @@
     package="com.example.bruno.notesync">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-feature android:name="android.hardware.camera"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+
+
 
     <application
         android:allowBackup="true"
@@ -10,18 +15,28 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/penicon"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme">
-        <activity android:name=".Activitys.LoginActivity">
+        android:theme="@style/AppFullScreenTheme">
+        <activity android:name=".activitys.LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".Activitys.EditActivity" />
-        <activity android:name=".Activitys.ShowActivity" />
-        <activity android:name=".Activitys.SignUpActivity" />
-        <activity android:name=".Activitys.ProfileActivity"></activity>
+        <activity android:name=".activitys.EditActivity" />
+        <activity android:name=".activitys.ShowActivity" />
+        <activity android:name=".activitys.SignUpActivity" />
+        <activity android:name=".activitys.ProfileActivity"></activity>
+
+        <provider
+            android:name="android.support.v4.content.FileProvider"
+            android:authorities="com.example.bruno.notesync"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/provider_paths"/>
+        </provider>
     </application>
 
 </manifest>

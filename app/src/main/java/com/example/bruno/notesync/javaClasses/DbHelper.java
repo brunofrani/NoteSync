@@ -1,4 +1,4 @@
-package com.example.bruno.notesync.JavaClasses;
+package com.example.bruno.notesync.javaClasses;
 
 import android.content.ContentValues;
 import android.content.Context;

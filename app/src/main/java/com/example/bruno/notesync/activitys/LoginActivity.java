@@ -3,6 +3,8 @@ package com.example.bruno.notesync.activitys;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.constraint.ConstraintLayout;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
@@ -22,11 +24,11 @@ import com.google.firebase.auth.FirebaseUser;
 public class LoginActivity extends AppCompatActivity {
 
 
-
     EditText emailField;
     EditText passwordField;
     Button loginButton;
     TextView gotosignup;
+    ConstraintLayout constraintLayout;
 
     private FirebaseAuth mAuth;
 
@@ -37,29 +39,22 @@ public class LoginActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        loginButton = findViewById(R.id.buttonSignIn);
 
-        emailField = findViewById(R.id.editTextEmail);
-        passwordField = findViewById(R.id.editTextPassword);
-        gotosignup = findViewById(R.id.textViewGoToSU);
+        initViews();
+
         mAuth = FirebaseAuth.getInstance();
-
 
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         if (user != null) {
             Intent intent = new Intent(getApplicationContext(), ShowActivity.class);
             startActivity(intent);
-        } else {
-            // TODO: implememt user not signed in
         }
 
-        loginButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                signIn(emailField.getText().toString(), passwordField.getText().toString());
-            }
-        });
+        addListenerToLoginButton();
+        addListenerToSignUpButton();
+    }
 
+    private void addListenerToSignUpButton() {
         gotosignup.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -67,6 +62,23 @@ public class LoginActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+    }
+
+    private void addListenerToLoginButton() {
+        loginButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                signIn(emailField.getText().toString(), passwordField.getText().toString());
+            }
+        });
+    }
+
+    private void initViews() {
+        loginButton = findViewById(R.id.buttonSignIn);
+        emailField = findViewById(R.id.editTextEmail);
+        passwordField = findViewById(R.id.editTextPassword);
+        gotosignup = findViewById(R.id.textViewGoToSU);
+        constraintLayout = findViewById(R.id.cordinator_edit);
     }
 
 
@@ -79,16 +91,18 @@ public class LoginActivity extends AppCompatActivity {
                         @Override
                         public void onComplete(@NonNull Task<AuthResult> task) {
                             if (task.isSuccessful()) {
-
                                 Log.d(TAG, "signInWithEmail:success");
                                 FirebaseUser user = mAuth.getCurrentUser();
                                 Intent intent = new Intent(getApplicationContext(), ShowActivity.class);
                                 startActivity(intent);
-
                             } else {
                                 Log.w(TAG, "signInWithEmail:failure", task.getException());
                                 Toast.makeText(getApplicationContext(), "Authentication failed." + task.getException().getMessage(),
                                         Toast.LENGTH_SHORT).show();
+                              /*  Snackbar snackbar = Snackbar
+                                        .make(constraintLayout, "Authentication failed." + task.getException().getMessage(), Snackbar.LENGTH_LONG);
+
+                                snackbar.show();*/
                             }
                         }
                     });

@@ -1,13 +1,16 @@
 package com.example.bruno.notesync.activitys;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.constraint.ConstraintLayout;
+import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -28,7 +31,7 @@ public class LoginActivity extends AppCompatActivity {
     EditText passwordField;
     Button loginButton;
     TextView gotosignup;
-    ConstraintLayout constraintLayout;
+    CoordinatorLayout coordinatorLayout;
 
     private FirebaseAuth mAuth;
 
@@ -69,8 +72,14 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 signIn(emailField.getText().toString(), passwordField.getText().toString());
+                dismisKeyboard();
             }
         });
+    }
+
+    private void dismisKeyboard() {
+        InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+        imm.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
     }
 
     private void initViews() {
@@ -78,7 +87,7 @@ public class LoginActivity extends AppCompatActivity {
         emailField = findViewById(R.id.editTextEmail);
         passwordField = findViewById(R.id.editTextPassword);
         gotosignup = findViewById(R.id.textViewGoToSU);
-        constraintLayout = findViewById(R.id.cordinator_edit);
+       coordinatorLayout = findViewById(R.id.coordinator);
     }
 
 
@@ -97,17 +106,21 @@ public class LoginActivity extends AppCompatActivity {
                                 startActivity(intent);
                             } else {
                                 Log.w(TAG, "signInWithEmail:failure", task.getException());
-                                Toast.makeText(getApplicationContext(), "Authentication failed." + task.getException().getMessage(),
-                                        Toast.LENGTH_SHORT).show();
-                              /*  Snackbar snackbar = Snackbar
-                                        .make(constraintLayout, "Authentication failed." + task.getException().getMessage(), Snackbar.LENGTH_LONG);
+                               /* Toast.makeText(getApplicationContext(), "Authentication failed." + task.getException().getMessage(),
+                                        Toast.LENGTH_SHORT).show();*/
+                               Snackbar snackbar = Snackbar
+                                        .make(coordinatorLayout, "Authentication failed." + task.getException().getMessage(), Snackbar.LENGTH_LONG);
 
-                                snackbar.show();*/
+                                snackbar.show();
                             }
                         }
                     });
         } else {
-            Toast.makeText(getApplicationContext(), "FIll in the fields", Toast.LENGTH_SHORT).show();
+            Snackbar snackbar = Snackbar
+                    .make(coordinatorLayout, "Fill In The Fields", Snackbar.LENGTH_LONG);
+
+            snackbar.show();
+            dismisKeyboard();
         }
     }
 

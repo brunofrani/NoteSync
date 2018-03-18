@@ -157,8 +157,7 @@ public class EditActivity extends AppCompatActivity {
             Intent itent = new Intent(getApplicationContext(), ShowActivity.class);
             startActivity(itent);
         } else {
-           /* Toast.makeText(getApplicationContext(), "Add some text ",
-                    Toast.LENGTH_SHORT).show();*/
+
             Snackbar snackbar = Snackbar
                     .make(coordinatorLayout, "Note Is Empty", Snackbar.LENGTH_LONG);
 

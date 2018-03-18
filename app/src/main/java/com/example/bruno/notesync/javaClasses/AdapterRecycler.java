@@ -74,7 +74,15 @@ public class AdapterRecycler extends RecyclerView.Adapter<AdapterRecycler.ViewHo
     public void onBindViewHolder(ViewHolder holder, int position) {
         // - get element from your dataset at this position
         // - replace the contents of the view with that element
-        holder.textView.setText((CharSequence) noteElement.get(position).getNote());
+        String noteToDisplay=  noteElement.get(position).getNote().toString();
+        if(noteToDisplay.length()>61){
+        String noteFInal = noteToDisplay.substring(0,60);
+        holder.textView.setText(noteFInal);
+        }else
+            {
+                holder.textView.setText(noteToDisplay);
+            }
+
         holder.textDate.setText((CharSequence) noteElement.get(position).getDate());
 
     }

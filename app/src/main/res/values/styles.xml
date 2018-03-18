@@ -15,5 +15,9 @@
         <item name="android:windowContentOverlay">@null</item>
     </style>
 
+    <style name="MyButton" parent="Theme.AppCompat.Light">
+        <item name="colorControlHighlight">#212121</item>
+    </style>
+
 
 </resources>

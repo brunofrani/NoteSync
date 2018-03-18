@@ -17,6 +17,7 @@
     android:id="@+id/cordinator_edit">
     <EditText
         android:id="@+id/textEdit"
+
         android:layout_marginTop="?attr/actionBarSize"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -31,15 +32,6 @@
         android:textAlignment="textStart"
         android:textColor="?android:attr/statusBarColor" />
 
-    <ImageView
-        android:id="@+id/imageViewPicture"
-        android:layout_width="300dp"
-        android:layout_height="400dp"
-        android:layout_marginTop="130dp"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="21dp"
-        app:srcCompat="@mipmap/ic_action_personxxh" />
 </android.support.design.widget.CoordinatorLayout>
 
 </RelativeLayout>

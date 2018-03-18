@@ -1,5 +1,6 @@
 package com.example.bruno.notesync.activitys;
 
+import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -9,7 +10,6 @@ import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
-import android.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -18,18 +18,13 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.bruno.notesync.R;
 import com.example.bruno.notesync.javaClasses.AdapterRecycler;
-import com.example.bruno.notesync.javaClasses.DbHelper;
 import com.example.bruno.notesync.javaClasses.NoteElements;
 import com.example.bruno.notesync.javaClasses.OnClickListener;
 import com.example.bruno.notesync.javaClasses.RvItemClickListener;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -41,9 +36,7 @@ import java.util.Collections;
 
 public class ShowActivity extends AppCompatActivity {
 
-
     private final String TagNAME = "Show Avitivity";
-
     ArrayList<NoteElements> noteList;
     AdapterRecycler adapterRecycler;
     DrawerLayout drawerLayout;
@@ -56,8 +49,6 @@ public class ShowActivity extends AppCompatActivity {
     private String EmailOfCurrentUser;
     OnClickListener onClickListener;
 
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -65,10 +56,7 @@ public class ShowActivity extends AppCompatActivity {
 
         database = FirebaseDatabase.getInstance();
         EmailOfCurrentUser = FirebaseAuth.getInstance().getCurrentUser().getEmail();
-        drawerLayout = findViewById(R.id.drawer_layout);
-        navigationView = findViewById(R.id.nav_view);
-        floatingActionButton = findViewById(R.id.fab);
-        mRecyclerView =  findViewById(R.id.my_recycler_view);
+        initViews();
         myRef = database.getReference("AllNotes").child("notes");
 
         Toolbar tb = findViewById(R.id.toolbar_id_show);
@@ -84,34 +72,34 @@ public class ShowActivity extends AppCompatActivity {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 Log.d(TagNAME, "on data change");
-               noteList.clear();
+                noteList.clear();
                 for (DataSnapshot noteSnapshot : dataSnapshot.getChildren()) {
                     NoteElements noteElements = noteSnapshot.getValue(NoteElements.class);
-                    if (noteElements.getEmail().equalsIgnoreCase(EmailOfCurrentUser))
-                    {
+                    if (noteElements.getEmail().equalsIgnoreCase(EmailOfCurrentUser)) {
                         Log.d(TagNAME, "Value is: " + noteElements.getDate());
                         noteList.add(noteElements);
                     }
                 }
                 Collections.reverse(noteList);
                 adapterRecycler.notifyDataSetChanged();
-              // adapterRecycler = new AdapterRecycler(noteList);
-               // mRecyclerView.setAdapter(adapterRecycler);
+                // adapterRecycler = new AdapterRecycler(noteList);
+                // mRecyclerView.setAdapter(adapterRecycler);
 
             }
+
             @Override
             public void onCancelled(DatabaseError error) {
                 Log.w("TAG", "Failed to read value.", error.toException());
             }
         });
 
-        Log.w("TAG", "notelist elements"+noteList.size());
-      // adapterRecycler = new AdapterRecycler(noteList);
+        Log.w("TAG", "notelist elements" + noteList.size());
+        // adapterRecycler = new AdapterRecycler(noteList);
 
-        Log.w("TAG", "Failed to read value."+adapterRecycler.getItemCount());
+        Log.w("TAG", "Failed to read value." + adapterRecycler.getItemCount());
         mRecyclerView.setAdapter(adapterRecycler);
-       // adapterRecycler = new AdapterRecycler(noteList);
-      //  mRecyclerView.setAdapter(adapterRecycler);
+        // adapterRecycler = new AdapterRecycler(noteList);
+        //  mRecyclerView.setAdapter(adapterRecycler);
 
 
         mRecyclerView.addOnItemTouchListener(new RvItemClickListener(getApplicationContext(), mRecyclerView, new OnClickListener() {
@@ -122,7 +110,7 @@ public class ShowActivity extends AppCompatActivity {
                 Intent intent = new Intent(getApplicationContext(), EditActivity.class);
                 intent.putExtra("uid", uid);
                 startActivity(intent);
-               // mRecyclerView.setAdapter(adapterRecycler);
+                // mRecyclerView.setAdapter(adapterRecycler);
             }
 
             @Override
@@ -146,7 +134,7 @@ public class ShowActivity extends AppCompatActivity {
                         noteList.remove(noteList.get(position));
                         adapterRecycler.notifyDataSetChanged();
                         myRef.child(uid).removeValue();
-                       // dialog.dismiss();
+                        // dialog.dismiss();
                     }
                 });
 
@@ -203,6 +191,14 @@ public class ShowActivity extends AppCompatActivity {
             }
         });
     }
+
+    private void initViews() {
+        drawerLayout = findViewById(R.id.drawer_layout);
+        navigationView = findViewById(R.id.nav_view);
+        floatingActionButton = findViewById(R.id.fab);
+        mRecyclerView = findViewById(R.id.my_recycler_view);
+    }
+
     @Override
     public void onBackPressed() {
 

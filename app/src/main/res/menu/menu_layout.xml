@@ -13,10 +13,6 @@
         android:icon="@mipmap/ic_action_discard"
         app:showAsAction="always" />
 
-    <item android:title="OpenCamera"
-        android:id="@+id/openCamera"
-        android:icon="@mipmap/ic_action_camera"
-        app:showAsAction="always"
-        />
+
 
 </menu>

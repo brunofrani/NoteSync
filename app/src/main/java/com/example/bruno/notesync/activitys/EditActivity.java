@@ -1,5 +1,6 @@
 package com.example.bruno.notesync.activitys;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
@@ -18,6 +19,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
@@ -43,23 +45,22 @@ import java.util.Date;
 public class EditActivity extends AppCompatActivity {
 
 
-    static final int REQUEST_IMAGE_CAPTURE = 1;
-    static int nr = 0;
+   // static final int REQUEST_IMAGE_CAPTURE = 1;
+    //static int nr = 0;
     private final String TagNAME = "Edit Avitivity";
     EditText noteEdit;
-    EditText Username;
-    ImageView picture;
+   // EditText Username;
+   // ImageView picture;
     String message;
     CoordinatorLayout coordinatorLayout;
     NoteElements noteElements;
-    DbHelper helper;
     FirebaseDatabase firebaseDatabase;
     FirebaseUser firebaseUser;
     DatabaseReference myRef;
     DatabaseReference ref;
     StorageReference storageReference;
     FirebaseStorage firebaseStorage;
-    StorageReference imagesRef;
+   // StorageReference imagesRef;
     String IntentUid;
     String uid;
     String note;
@@ -69,11 +70,9 @@ public class EditActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.edit_layout);
 
-        picture = findViewById(R.id.imageViewPicture);
 
-        picture.setVisibility(View.INVISIBLE);
 
-        coordinatorLayout = findViewById(R.id.cordinator_edit);
+       coordinatorLayout = findViewById(R.id.cordinator_edit);
 
         // firebaseDatabase = FirebaseDatabase.getInstance();
         // firebaseDatabase.setPersistenceEnabled(true);
@@ -82,7 +81,7 @@ public class EditActivity extends AppCompatActivity {
         firebaseStorage = FirebaseStorage.getInstance();
         storageReference = firebaseStorage.getReference();
 
-        imagesRef = storageReference.child("images");
+      //  imagesRef = storageReference.child("images");
         IntentUid = intent.getStringExtra("uid");
         Log.d(TagNAME, "Intent value" + IntentUid);
 
@@ -102,7 +101,7 @@ public class EditActivity extends AppCompatActivity {
 
         if (IntentUid != null) {
 
-            Log.d("TAG", "INtent has data.");
+            Log.d("TAG", "Intent has data.");
             ref = database.getReference("AllNotes").child("notes").child(IntentUid);
             // Attach a listener to read the data at our posts reference
             ref.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -126,17 +125,6 @@ public class EditActivity extends AppCompatActivity {
 
     }
 
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
-            // Bundle extras = data.getExtras();
-            //  Bitmap imageBitmap = (Bitmap) extras.get("data");
-            // picture.setImageBitmap(imageBitmap);
-            //  picture.setVisibility(View.VISIBLE);
-            Toast.makeText(getApplicationContext(), "picture saved",
-                    Toast.LENGTH_SHORT).show();
-        }
-    }
 
 
     public void writeToFirebase() {
@@ -172,7 +160,7 @@ public class EditActivity extends AppCompatActivity {
            /* Toast.makeText(getApplicationContext(), "Add some text ",
                     Toast.LENGTH_SHORT).show();*/
             Snackbar snackbar = Snackbar
-                    .make(coordinatorLayout, "Welcome to AndroidHive", Snackbar.LENGTH_LONG);
+                    .make(coordinatorLayout, "Note Is Empty", Snackbar.LENGTH_LONG);
 
             snackbar.show();
         }
@@ -196,57 +184,21 @@ public class EditActivity extends AppCompatActivity {
 
             case R.id.saveItem:
                 message = item.getTitle().toString();
-                // NoteElements noteElements = new NoteElements("Here is a note", "here is a userna"," The id");
-                // DbHelper helper = new DbHelper(this);
-                // helper.addNote(noteElements);
-
-
-                //String sting = noteElements.getNote();
-                // Log.d("Is Saved $",sting);
-                // write();
                 writeToFirebase();
-
-
                 break;
 
             case R.id.discardItem:
 
-                noteEdit.getText().clear();
-
-
-                Toast.makeText(getApplicationContext(), "Note Discarded",
-                        Toast.LENGTH_SHORT).show();
+                if (!noteEdit.getText().toString().isEmpty()) {
+                    noteEdit.getText().clear();
+                    Snackbar.make(coordinatorLayout, "Note Cleared", Snackbar.LENGTH_LONG).show();
+                    dismisKeyboard();
+                }else
+                    {
+                        Snackbar.make(coordinatorLayout, "Note Is Empty", Snackbar.LENGTH_LONG).show();
+                        dismisKeyboard();
+                    }
                 break;
-
-
-            case R.id.openCamera:
-
-
-                if (ContextCompat.checkSelfPermission(getApplicationContext(), android.Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED)
-
-                {
-                    ActivityCompat.requestPermissions(this, new String[]{android.Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1);
-
-                }
-
-                Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-
-
-                File filedirectory = Environment.getExternalStorageDirectory();
-                Log.d(TagNAME, "directory content " + filedirectory.toString());
-                File dir = new File(filedirectory.getAbsolutePath(), "/NoteSync");
-
-                if (!dir.exists()) {
-                    dir.mkdir();
-                }
-                String FileName = getFileName();
-                File file = new File(dir, FileName);
-                Uri photoUri = FileProvider.getUriForFile(getApplicationContext(), getApplicationContext().getPackageName(), file);
-                Log.d(TagNAME, "uri content " + photoUri.toString());
-
-                takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoUri);
-
-                startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
 
 
         }
@@ -255,86 +207,10 @@ public class EditActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
 
     }
-
-    private String getFileName() {
-        String email = firebaseUser.getEmail();
-        String DateTime = DateFormat.getDateTimeInstance().format(new Date());
-        String Filename = email + DateTime;
-        SimpleDateFormat sfd = new SimpleDateFormat("yyMMdd");
-        String date = sfd.format(new Date());
-        return date;
-
+    private void dismisKeyboard() {
+        InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+        imm.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
     }
-
-
-    @Override
-    public void onRequestPermissionsResult(int requestCode,
-                                           String permissions[], int[] grantResults) {
-        switch (requestCode) {
-            case 1: {
-                // If request is cancelled, the result arrays are empty.
-                if (grantResults.length > 0
-                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-
-
-                    // File filedirectory = Environment.getExternalStorageDirectory();
-                    // Log.d(TagNAME, "directory content "+filedirectory.toString());
-                    String filedirectory = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES).getAbsolutePath();
-                    File dir = new File(filedirectory, "/NoteSync");
-                    Log.d(TagNAME, "uri content " + dir.toString());
-                    if (!dir.exists()) {
-                        dir.mkdir();
-                    }
-                    String FileName = getFileName();
-                    File file = new File(dir, FileName);
-                    Uri photoUri = FileProvider.getUriForFile(getApplicationContext(), getApplicationContext().getPackageName(), file);
-                    Log.d(TagNAME, "uri content " + photoUri.toString());
-
-                    takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoUri);
-
-                    startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
-
-                    // permission was granted, yay! Do the
-                    // contacts-related task you need to do.
-
-                } else {
-                    Toast.makeText(getApplicationContext(), "Permission denied",
-                            Toast.LENGTH_SHORT).show();
-
-                    // permission denied, boo! Disable the
-                    // functionality that depends on this permission.
-                }
-                return;
-            }
-
-            // other 'case' lines to check for other
-            // permissions this app might request.
-        }
     }
-
-
-      /* public void write()
-    {
-
-         note =noteEdit.getText().toString();
-
-         helper = new DbHelper(this);
-        if(!note.isEmpty())
-        {
-       noteElements = new NoteElements(note,"Bruno");
-        helper.addNote(noteElements);
-        }else
-            {
-                Toast.makeText(getApplicationContext(), "Add some text " ,
-                        Toast.LENGTH_SHORT).show();
-            }
-
-
-
-    }*/
-
-
-}
 
 

@@ -1,10 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+
+<android.support.design.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
+    android:id="@+id/coordinator_signUp"
+    android:layout_height="match_parent">
+
+<RelativeLayout
+    android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#F0FFF0"
+    android:background="#E0E0E0"
     tools:context="com.example.bruno.notesync.activitys.SignUpActivity">
 
     <EditText
@@ -12,11 +18,11 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="106dp"
-        android:ems="10"
-        android:hint="Enter Your Email"
 
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="182dp"
+        android:ems="10"
+        android:hint="Email"
         android:inputType="textEmailAddress" />
 
     <EditText
@@ -24,11 +30,11 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignStart="@+id/editTextEmailSignUp"
-        android:layout_below="@+id/editTextEmailSignUp"
-        android:layout_marginTop="51dp"
-        android:ems="10"
-        android:hint="Enter Your Password"
 
+        android:layout_below="@+id/editTextEmailSignUp"
+        android:layout_marginTop="15dp"
+        android:ems="10"
+        android:hint="Password"
         android:inputType="textPassword" />
 
     <Button
@@ -37,7 +43,18 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/editTextPasswordSignUp"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="56dp"
+        android:layout_marginTop="107dp"
         android:text="Sign Up"
-        android:textColor="@android:color/holo_green_dark" />
+        android:theme="@style/MyButton"
+        style="@style/Base.Widget.AppCompat.Button.Borderless"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="77dp"
+        android:text="Sign Up  with Email and Password"
+        android:textSize="18sp" />
 </RelativeLayout>
+</android.support.design.widget.CoordinatorLayout>
